@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const userRouter = require("./userRoutes")
+const {getallUsers}= require("../controllers/userController")
 
-router.get("/",(req,res)=>{
-    res.send("Server Running")
-})
+router.get("/",getallUsers)
+
 
 
 module.exports = router;

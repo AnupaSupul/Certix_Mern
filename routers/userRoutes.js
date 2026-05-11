@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const user
+const userRouter = require("./userRoutes")
 
 router.get("/",(req,res)=>{
     res.send("Server Running")

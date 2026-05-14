@@ -17,6 +17,8 @@ app.get("/",(req,res)=>{
     res.send("Server Running")
 });
 
+
+app.use(express.json()); //Convert incoming JSON body into JavaScript object
 app.use("/api/users",userRoutes);
 
 app. listen(port,()=>{

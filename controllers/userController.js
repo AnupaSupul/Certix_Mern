@@ -1,8 +1,17 @@
-const getallUsers = (req,res)=>{
-    res.send("All Users");
+const User = require("../models/userModel")
+const getallUsers = async(req,res)=>{
+    try{
+        const users = await User.find() //Find all users from MongoDB
+        res.status(200).json(users) //Sends users back as JSON.
+        
+    }catch(error){
+        res.status(500).json({
+            message: "Failed to fetch users",
+            error : error.message
+        })
+    }
 }
 
-const User = require("../models/userModel")
 
 const createNewUser = async (req,res)=>{
     try{
@@ -18,4 +27,19 @@ const createNewUser = async (req,res)=>{
     }
 }
 
-module.exports={getallUsers,createNewUser}
+const upadateUser = async(req,res)=>{
+    try{
+        const user = await User.findByIdAndUpdate(
+            req.params.id ,
+             req.body ,
+            {new : true})            //Find user by ID and update with new data from request body. {new : true} returns the updated user.
+            res.status(200).json(user)
+    }catch(err){
+        res.status(500).json({
+            message : "Failed to update user",
+            err : err.message
+        })
+    }
+}
+
+module.exports={getallUsers,createNewUser,upadateUser}

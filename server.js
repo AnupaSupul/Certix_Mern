@@ -4,6 +4,7 @@ const port = 3000;
 const userRoutes= require("./routers/userRoutes")
 const mongoose = require("mongoose");
 require("dotenv").config();
+const errorMiddleware = require("./middleware/errorMiddleware")
 
 mongoose.connect(process.env.MONGO_URL)
 .then(()=>{
@@ -20,7 +21,7 @@ app.get("/",(req,res)=>{
 
 app.use(express.json()); //Convert incoming JSON body into JavaScript object
 app.use("/api/users",userRoutes);
-
+app.use(errorMiddleware) //Global error handling middleware. It will catch any errors that occur in the routes and send a JSON response with the error message.
 app. listen(port,()=>{
     console.log("Server is running on port "+port);
 });

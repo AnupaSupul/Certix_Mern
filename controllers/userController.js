@@ -1,19 +1,17 @@
 const User = require("../models/userModel")
-const getallUsers = async(req,res)=>{
+const getallUsers = async(req,res,next)=>{
     try{
         const users = await User.find() //Find all users from MongoDB
-        res.status(200).json(users) //Sends users back as JSON.
+        res.status(200).json(users)
+        // res.status(200).json(users) //Sends users back as JSON.
         
     }catch(error){
-        res.status(500).json({
-            message: "Failed to fetch users",
-            error : error.message
-        })
+       return next(error) //Pass the error to the next middleware (error handling middleware)
     }
 }
 
 
-const createNewUser = async (req,res)=>{
+const createNewUser = async (req,res,next)=>{
     try{
         const user = await User.create(req.body) //Take data from request bodyand save into MongoDB
         res.status(201).json(user) //Sends saved user back as JSON.

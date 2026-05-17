@@ -18,10 +18,7 @@ const createNewUser = async (req,res,next)=>{
         //201 means:Created Successfully
 
     }catch(error){
-        res.status(500).json({
-            message : "Failed to create user",
-            error : error.message
-        })
+        return next(error) //Pass the error to the next middleware (error handling middleware)
     }
 }
 

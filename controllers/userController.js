@@ -22,22 +22,19 @@ const createNewUser = async (req,res,next)=>{
     }
 }
 
-const upadateUser = async(req,res)=>{
+const upadateUser = async(req,res,next)=>{
     try{
         const user = await User.findByIdAndUpdate(
             req.params.id ,
              req.body ,
-            {new : true})            //Find user by ID and update with new data from request body. {new : true} returns the updated user.
+            {returnDocument:"after"})            //Find user by ID and update with new data from request body. {new : true} returns the updated user.
             res.status(200).json(user)
     }catch(err){
-        res.status(500).json({
-            message : "Failed to update user",
-            err : err.message
-        })
+        return next(err)
     }
 }
 
-const deleteUser = async(req,res)=>{
+const deleteUser = async(req,res,next)=>{
     try{
         const user = await User.findByIdAndDelete(
             req.params.id
@@ -45,10 +42,7 @@ const deleteUser = async(req,res)=>{
         res.status(200).json("User deleted successfully")
 
     }catch(err){
-        res.status(500).json({
-            message : "Failed to delete user",
-            err : err.message
-        })
+        return next(err)
     }
 }
 

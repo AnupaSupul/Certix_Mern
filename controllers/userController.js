@@ -55,7 +55,7 @@ const deleteUser = async(req,res,next)=>{
     }
 }
 
-const getsingleUser = async(req,res,next)=>{
+const getSingleUser = async(req,res,next)=>{
     try{
         const user = await User.findById(req.params.id)
         if(!user){
@@ -78,4 +78,4 @@ module.exports={getallUsers,
                 createNewUser,
                 upadateUser,
                 deleteUser,
-                getsingleUser}
+                getSingleUser}

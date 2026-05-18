@@ -1,4 +1,5 @@
 const User = require("../models/userModel")
+const bcrypt = require("bcryptjs")
 const getallUsers = async(req,res,next)=>{
     try{
         const users = await User.find() //Find all users from MongoDB
@@ -13,9 +14,18 @@ const getallUsers = async(req,res,next)=>{
 
 const createNewUser = async (req,res,next)=>{
     try{
-        const user = await User.create(req.body) //Take data from request bodyand save into MongoDB
-        res.status(201).json(user) //Sends saved user back as JSON.
-        //201 means:Created Successfully
+        // const user = await User.create(req.body)            //Take data from request bodyand save into MongoDB
+        const {name,email,age,password} = req.body
+        const hashedPassword = await bcrypt.hash(password,10) //Hash the password using bcrypt with a salt rounds of 10.
+        const user = await User.create({
+            name,
+            email,
+            age,
+            password : hashedPassword
+        })
+        
+        res.status(201).json(user)                              //Sends saved user back as JSON.
+                         //201 means:Created Successfully
 
     }catch(error){
         return next(error) //Pass the error to the next middleware (error handling middleware)
@@ -73,6 +83,8 @@ const getSingleUser = async(req,res,next)=>{
         return next(err)
     }
 }
+
+
 
 module.exports={getallUsers,
                 createNewUser,

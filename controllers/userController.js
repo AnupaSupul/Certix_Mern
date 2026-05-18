@@ -55,7 +55,27 @@ const deleteUser = async(req,res,next)=>{
     }
 }
 
+const getsingleUser = async(req,res,next)=>{
+    try{
+        const user = await User.findById(req.params.id)
+        if(!user){
+            return res.status(404).json({
+                message : "User not found"
+            })
+        }else{
+            res.status(200).json({
+                message: "User found successfully",
+                user: user
+            })
+        }
+    }
+    catch(err){
+        return next(err)
+    }
+}
+
 module.exports={getallUsers,
                 createNewUser,
                 upadateUser,
-                deleteUser}
+                deleteUser,
+                getsingleUser}

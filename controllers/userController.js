@@ -128,9 +128,23 @@ const logInUser = async(req,res,next)=>{
     }
 }
 
+const getProfile = async(req,res,next)=>{
+    try{
+        const user = await User.findById(req.user.id)
+        res.status(200).json({
+            message: "Profile retrieved successfully",
+            user: user
+        })
+    }
+    catch(err){
+        return next(err)
+    }   
+}
+
 module.exports={getallUsers,
                 createNewUser,
                 upadateUser,
                 deleteUser,
                 getSingleUser,
-                logInUser}
+                logInUser,
+                getProfile}

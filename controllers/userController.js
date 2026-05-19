@@ -1,5 +1,8 @@
 const User = require("../models/userModel")
 const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
+
+
 const getallUsers = async(req,res,next)=>{
     try{
         const users = await User.find() //Find all users from MongoDB
@@ -104,9 +107,20 @@ const logInUser = async(req,res,next)=>{
                 message: "Invalid password"
             })
         }else{
+            const token = jwt.sign(
+                {
+                    id : user._id
+                },
+                process.env.JWT_SECRET,
+                {
+                    expiresIn : "1h"
+                }
+            )
             res.status(200).json({
-                message: "Login successful"
+                message: "Login successful",
+                token: token
             })
+
         }
 
     }catch(error){

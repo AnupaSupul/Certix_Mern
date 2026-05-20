@@ -5,6 +5,9 @@ const userRoutes= require("./routers/userRoutes")
 const mongoose = require("mongoose");
 require("dotenv").config();
 const errorMiddleware = require("./middleware/errorMiddleware")
+const cors = require("cors")
+
+app.use(cors());  //Enable CORS for all routes. This allows the server to accept requests from different origins, which is useful for frontend applications running on a different domain or port.
 
 mongoose.connect(process.env.MONGO_URL)
 .then(()=>{
